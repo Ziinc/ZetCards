@@ -1,0 +1,9 @@
+node_modules/
+**/**/native/target
+**/**/native/index.node
+**/**/native/artifacts.json
+**/*~
+**/node_modules
+**/.DS_Store
+zet/out/
+.vscode/
