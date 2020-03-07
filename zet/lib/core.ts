@@ -6,7 +6,7 @@ const path = require("path");
 let index;
 export const buildSearchIndex = async () => {
   if (index) return;
-  index = elasticlunr(function() {
+  index = elasticlunr(function () {
     this.setRef("id");
     this.addField("title");
     this.addField("body");
