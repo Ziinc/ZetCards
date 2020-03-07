@@ -10,6 +10,7 @@
     "Other"
   ],
   "activationEvents": [
+    "onLanguage:markdown",
     "onCommand:extension.helloWorld"
   ],
   "main": "./out/extension.js",
@@ -31,6 +32,8 @@
     "neon": "neon build"
   },
   "dependencies": {
+    "elasticlunr": "^0.9.5",
+    "flexsearch": "github:nextapps-de/flexsearch#0.7.0",
     "zet-core": "file:./rs/pkg"
   },
   "devDependencies": {
