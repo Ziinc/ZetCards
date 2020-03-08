@@ -1,12 +1,24 @@
 import * as vscode from "vscode";
-import { isObject } from "util";
 const fs = require("fs");
 var elasticlunr = require("elasticlunr");
 const path = require("path");
 let index;
+
+const newId = () => new Date().valueOf();
+const getIdFromString = (toSearch: string) => toSearch.match(/^(\d{13})/g);
+const checkFormat = (toCheck: string) => {
+  const pattern = RegExp("^(\\d{13})-(.+)", "g");
+  return pattern.test(toCheck);
+};
+export const utils = {
+  newId,
+  getIdFromString,
+  checkFormat
+};
+
 export const buildSearchIndex = async () => {
   if (index) return;
-  index = elasticlunr(function () {
+  index = elasticlunr(function() {
     this.setRef("id");
     this.addField("title");
     this.addField("body");
