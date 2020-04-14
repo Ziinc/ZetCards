@@ -1,7 +1,8 @@
 import * as assert from "assert";
 import { describe, it } from "mocha";
 // import * as myExtension from '../extension';
-import * as core from "../../core";
+import * as core from "../../lib/core";
+import { testingFunction } from "core";
 
 describe("utils", () => {
   it("can generate a file ID", () => {
@@ -21,5 +22,9 @@ describe("utils", () => {
     const filename = `${id}-my_filename`;
     const parsedId = core.utils.getIdFromString(filename);
     assert.equal(id, parsedId);
+  });
+  it("installed core correctly", () => {
+    const res = testingFunction();
+    assert.equal(res, "hello!");
   });
 });
