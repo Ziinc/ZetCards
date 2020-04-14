@@ -1,6 +1,18 @@
-# vscode-zet
+# ZetCards
 
-Zettelkasten extension for vscode
+ZetCards is a knowledge organization program built to last a lifetime. It is based on the ideas of [Luhmann's ZettleKasten method](https://medium.com/emvi/luhmanns-zettelkasten-a-productivity-tool-that-works-like-your-brain-abe2d53a2948) and the traditional wiki.
+
+- [ ] VSCode extension
+
+## Development Notes
+
+The main architectural considerations are as follows:
+
+- Core of the application is shared as much as possible
+- Core is platform agnostic
+- Thin platform-specific wrapper around core functionalities
+
+### Experimental WASM usage
 
 Core functions are written in rust and used in the extension through wasm.
 
@@ -14,9 +26,7 @@ Core functions are written in rust and used in the extension through wasm.
 (cd zet; npm run compile)
 ```
 
-Then, to test out the extension, open up an instance of vscode in the `/zet` folder, and click the "run extension" button at the bottom left.
-
-Todos:
+### Todos
 
 - [ ] reading files, using vscode
 
@@ -73,3 +83,9 @@ Notes: will need to bridge core code, wasm interface, and vscode/ts interface.
 - Reduce the extension size and improve the startup time by [bundling your extension](https://code.visualstudio.com/api/working-with-extensions/bundling-extension).
 - [Publish your extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VSCode extension marketplace.
 - Automate builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
+
+## License
+
+ZetCards client software is licensed with GNU GPL v3.
+
+The ZetCards-related creative works like branding are copyrighted, with all rights reserved.
