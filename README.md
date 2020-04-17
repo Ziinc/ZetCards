@@ -41,10 +41,12 @@ Integrate with GitJournal
   - [ ] Automatically linting dead relative links in notes
 - Notes Analysis
   - [ ] Can see a note's inbound links
+    - [x] Store
+    - [ ] Display
 - Future
-  - [ ] Note search/smart linking based on relevance
-  - [ ] Note Preview
-    - [ ] Can preview notes in side panel just by focusing on links
+  - Note search/smart linking based on relevance
+  - Note Preview
+    - Can preview notes in side panel just by focusing on links
       - Use cases:
         - searching for possible links (link management)
       - ![Example UI inspiration](/assets/2020/04/08-02-21-1586283681424.png)

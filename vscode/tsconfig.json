@@ -3,9 +3,9 @@
     "module": "commonjs",
     "target": "es6",
     "outDir": "out",
-    "lib": ["es6", "dom"],
     "sourceMap": true,
-    "rootDir": "."
+    "rootDir": ".",
+    "jsx": "react"
     /* Additional Checks */
     // "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
     // "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */

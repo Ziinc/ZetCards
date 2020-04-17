@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import { describe, it } from "mocha";
 // import * as myExtension from '../extension';
-import * as core from "../../lib/core";
+import * as core from "../../lib/old_core";
 import { testingFunction } from "core";
 
 describe("utils", () => {

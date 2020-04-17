@@ -11,27 +11,29 @@
   ],
   "activationEvents": [
     "onLanguage:markdown",
-    "onCommand:extension.helloWorld"
+    "onCommand:zetcards.openCardPanel"
   ],
-  "main": "./out/lib/extension.js",
+  "main": "./dist/ext",
   "contributes": {
     "commands": [
       {
-        "command": "extension.helloWorld",
-        "title": "Zet: Hello World"
+        "command": "zetcards.openCardPanel",
+        "title": "ZetCards: Open Card Panel"
       }
     ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ../core && tsc -p ./",
-    "watch": "tsc -watch -p ./",
+    "compile": "(cd ../core; npm run compile;) && tsc -p ./",
+    "watch": "webpack --watch",
     "pretest": "npm run compile",
     "test": "node ./out/test/runTest.js"
   },
   "dependencies": {
     "core": "file:../core",
-    "elasticlunr": "^0.9.5"
+    "elasticlunr": "^0.9.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
@@ -43,7 +45,10 @@
     "eslint": "^6.8.0",
     "glob": "^7.1.6",
     "mocha": "^7.0.1",
+    "ts-loader": "^7.0.0",
     "typescript": "^3.8.3",
-    "vscode-test": "^1.3.0"
+    "vscode-test": "^1.3.0",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }
