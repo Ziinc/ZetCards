@@ -2,26 +2,9 @@
 
 ZetCards is a knowledge organization program built to last a lifetime. It is based on the ideas of [Luhmann's ZettleKasten method](https://medium.com/emvi/luhmanns-zettelkasten-a-productivity-tool-that-works-like-your-brain-abe2d53a2948) and the traditional wiki.
 
-- [ ] VSCode extension
-
-## Development Notes
-
-The main architectural considerations are as follows:
-
-- Core of the application is shared as much as possible
-- Core is platform agnostic
-- Thin platform-specific wrapper around core functionalities
-
-# ZetCards
-
-- ZetCards
-
-## Scope
-
-To bring the zettlekasten workflow together with a markdown repo environment
-
 End Goals:
 
+- [ ] VSCode extension
 - Have a FOSS core
 - Peripheral services priced as per month services for maintenance, upkeep
   - srs applications integrations (anki/mochi)
@@ -82,8 +65,17 @@ Integrate with GitJournal
 
 Notes: will need to bridge core code, wasm interface, and vscode/ts interface.
 
----
+## Development Notes
 
+The main architectural considerations are as follows:
+
+- Core of the application is shared as much as possible
+- Core is platform agnostic
+- Thin platform-specific wrapper around core functionalities
+
+<details>
+  <summary>VSCode ext dev readme</summary>
+  
 # Welcome to your VS Code Extension
 
 ## What's in the folder
@@ -126,8 +118,15 @@ Notes: will need to bridge core code, wasm interface, and vscode/ts interface.
 - [Publish your extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension) on the VSCode extension marketplace.
 - Automate builds by setting up [Continuous Integration](https://code.visualstudio.com/api/working-with-extensions/continuous-integration).
 
+</details>
+
 ## License
 
-ZetCards client software is licensed with GNU GPL v3.
+ZetCards software is licensed with GNU GPL v3.
 
-The ZetCards-related creative works like branding are copyrighted, with all rights reserved.
+This means that:
+
+- You can build, verify, test, and share ZetCards freely.
+- You cannot create a non-free proprietary improvement on the program and compete against ZetCards.
+
+The ZetCards-related creative works like branding, websites, documentation are copyrighted, with all rights reserved.
