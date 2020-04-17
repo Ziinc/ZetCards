@@ -12,19 +12,61 @@ The main architectural considerations are as follows:
 - Core is platform agnostic
 - Thin platform-specific wrapper around core functionalities
 
-### Experimental WASM usage
+# ZetCards
 
-Core functions are written in rust and used in the extension through wasm.
+- ZetCards
 
-```bash
-# to run
+## Scope
 
-# build wasm package, outs to /zet/rs/pkg
-(cd zet/rs;  wasm-pack build --target nodejs )
+To bring the zettlekasten workflow together with a markdown repo environment
 
-# build extension, outs to /zet/out
-(cd zet; npm run compile)
-```
+End Goals:
+
+- Have a FOSS core
+- Peripheral services priced as per month services for maintenance, upkeep
+  - srs applications integrations (anki/mochi)
+  - references management (zotero)
+  - academic paper output (latex)
+  - mobile/web support, possible SaaS
+  - website building support
+
+## Ideal Workflow
+
+### Creating notes
+
+Integrate with GitJournal
+
+## Things the software should handle
+
+- Note search
+  - [ ] Filepicker search based on content/relevance
+    - https://github.com/gayanhewa/vscode-fuzzysearch
+- Note Management
+  - [ ] Create new notes in an inbox folder
+  - [ ] Add file ids to filenames automatically.
+  - [ ] Adjusting note's filename if the linked note's header 1/title changes
+  - [ ] Adjusting anchor text if linked note's filename changes
+  - [ ] Automatically move files based on tags
+    - [ ] hierarchical tags, for subfolders
+  - [ ] Able to expand a hierarchy of note links
+    - Use case e.g.
+      - combining a collection of notes into a draft document for an article.
+- Link management
+  - [ ] wiki-style fast linking for creating links between notes
+  - [ ] Searching for notes based on filename/header/yaml title/subheaders/content, automatically creating links when selected
+  - [ ] Automatically adjusting relative links when files are moved, keeping relative links in sync
+  - [ ] Automatically linting dead relative links in notes
+- Notes Analysis
+  - [ ] Can see a note's inbound links
+- Future
+  - [ ] Note search/smart linking based on relevance
+  - [ ] Note Preview
+    - [ ] Can preview notes in side panel just by focusing on links
+      - Use cases:
+        - searching for possible links (link management)
+      - ![Example UI inspiration](/assets/2020/04/08-02-21-1586283681424.png)
+  - Community building
+    - Getting advice from peers to organize/condense a zet note
 
 ### Todos
 
