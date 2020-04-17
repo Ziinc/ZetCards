@@ -1,0 +1,1 @@
+{"version":1,"ops":[{"type":1,"author":{"id":"56babd59974d49d1d7b256d5f5ef0d3376d86070"},"timestamp":1587109911,"title":"Can see a note's inbound links","message":"Scope:\n- Core: view all inbound links for each note\n- VSCode: display in markdown previewer (?)","files":null}]}
