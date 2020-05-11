@@ -5,7 +5,7 @@ ZetCards is a flat file knowledge organization program built to last a lifetime.
 End Goals:
 
 - [ ] VSCode extension
-- Peripheral services priced as per month services for maintenance, upkeep
+- SaaS offerings for peripheral services, priced as per month services for maintenance, upkeep
   - srs applications integrations (anki/mochi)
   - references management (zotero)
   - academic paper output (latex)
