@@ -21,7 +21,7 @@ describe("backlinks", function() {
     ];
 
     const deps = {
-      refreshCardsDep: (): RawCard[] => cards
+      refreshCards: (): RawCard[] => cards
     };
     let core = await Core.init(deps);
 

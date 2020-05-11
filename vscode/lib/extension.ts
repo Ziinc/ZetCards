@@ -1,57 +1,79 @@
 import * as vscode from "vscode";
 import * as path from "path";
-import { store } from "core";
+import deps from "./deps";
+import Core, { State } from "core";
+// push state to webview
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
+  let currentPanel: vscode.WebviewPanel | undefined = undefined;
+
+  const pushState = (state: State) => {
+    if (!currentPanel) return;
+    currentPanel.webview.postMessage(state);
+  };
+  // console.log("ran");
+  // let core = Core.init({
+  //   ...
+  // }).then(core => {
+  //   const cards = core.cards.listCards();
+  //   console.log(cards);
+  // });
   const extensionPath = context.extensionPath;
-  const selector = "*";
-  const completionItemProviderDisposable = vscode.languages.registerCompletionItemProvider(
-    selector,
-    {
-      provideCompletionItems(document, position, token, context) {
-        const items = [];
-        for (let tag of ["test", "testing123"]) {
-          items.push(new vscode.CompletionItem(tag));
-        }
-        console.log(items);
-
-        return items;
-      }
-    },
-    "[["
-  );
-
-  context.subscriptions.push(completionItemProviderDisposable);
 
   context.subscriptions.push(
     vscode.commands.registerCommand("zetcards.openCardPanel", () => {
       // The code you place here will be executed every time your command is executed
-      let panel = vscode.window.createWebviewPanel(
-        "cardPanel",
-        "ZetCards Dashboard",
-        vscode.ViewColumn.One,
-        {
-          enableScripts: true,
-          localResourceRoots: [
-            vscode.Uri.file(path.join(extensionPath, "dist")),
-            vscode.Uri.file(path.join(extensionPath, "static"))
-          ]
-        }
-      );
-
-      // pass app state to html renderer on state change
-      // https://stackoverflow.com/questions/1759987/listening-for-variable-changes-in-javascript
-      function refreshHtml() {
-        // const appState
+      if (currentPanel) {
+        currentPanel.reveal(vscode.ViewColumn.One);
+        return;
+      } else {
+        // create new panel
+        currentPanel = vscode.window.createWebviewPanel(
+          "cardPanel",
+          "ZetCards Dashboard",
+          vscode.ViewColumn.One,
+          {
+            enableScripts: true,
+            localResourceRoots: [
+              vscode.Uri.file(path.join(extensionPath, "dist")),
+              vscode.Uri.file(path.join(extensionPath, "static"))
+            ]
+          }
+        );
+        currentPanel.webview.html = getWebviewContent(
+          currentPanel.webview,
+          extensionPath
+        );
+        // Listen for when the panel is disposed
+        // This happens when the user closes the panel or when the panel is closed programatically
+        currentPanel.onDidDispose(
+          () => this.dispose(),
+          null,
+          this._disposables
+        );
+        currentPanel.onDidDispose(
+          () => {
+            currentPanel = undefined;
+          },
+          undefined,
+          context.subscriptions
+        );
       }
-      console.log(store.getState());
-      panel.webview.html = getWebviewContent(panel.webview, extensionPath);
-      // Listen for when the panel is disposed
-      // This happens when the user closes the panel or when the panel is closed programatically
-      panel.onDidDispose(() => this.dispose(), null, this._disposables);
-      panel.onDidDispose(
-        () => {
-          panel = undefined;
+      pushState({ test: "testing" });
+      currentPanel.webview.onDidReceiveMessage(
+        message => {
+          const command = message.command;
+          const callbacks = {
+            add() {
+              console.log("testing message passing");
+            }
+          };
+          const callback = callbacks[command] || null;
+
+          if (callback) {
+            callback(message.data);
+          }
+          return;
         },
         undefined,
         context.subscriptions
@@ -90,8 +112,11 @@ function getWebviewContent(webview: vscode.Webview, extensionPath) {
             <title>Cat Coding</title>
         </head>
         <body>
-          <noscript>You need to enable JavaScript to run this app.</noscript>
-          <div id="root"></div>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+        <script  nonce="${nonce}">
+          const vscode = acquireVsCodeApi();
+        </script>
           
           <script nonce="${nonce}" src="${scriptUri}"></script>
         </body>

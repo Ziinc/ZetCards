@@ -11,7 +11,7 @@ describe("refresh", function() {
     };
 
     const deps = {
-      refreshCardsDep: (): RawCard[] => [card]
+      refreshCards: (): RawCard[] => [card]
     };
     let core = await Core.init(deps);
 

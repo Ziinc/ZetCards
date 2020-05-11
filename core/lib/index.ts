@@ -3,8 +3,10 @@ import Cards, { RawCard } from "./features/cards";
 import Links from "./features/links";
 
 interface Deps {
-  refreshCardsDep: () => RawCard[];
+  refreshCards: () => RawCard[];
+  pushState?: (state: State) => void;
 }
+export type State = any;
 type App = {
   db: any;
   refresh: any;
@@ -49,8 +51,8 @@ export default {
   refresh() {
     let cards;
 
-    if (this.deps.refreshCardsDep) {
-      cards = this.deps.refreshCardsDep();
+    if (this.deps.refreshCards) {
+      cards = this.deps.refreshCards();
       this.cards.insertCards(cards);
       this.links.buildLinks();
     }

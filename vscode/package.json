@@ -24,8 +24,8 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "(cd ../core; npm run compile;) && tsc -p ./",
-    "watch": "webpack --watch",
+    "compile": "(cd ../core; npm run compile;) && webpack",
+    "watch": "webpack",
     "pretest": "npm run compile",
     "test": "node ./out/test/runTest.js"
   },

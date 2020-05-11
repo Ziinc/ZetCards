@@ -1,9 +1,34 @@
 import * as React from "react";
+import { useEffect, createContext, useContext, useState } from "react";
 import * as ReactDOM from "react-dom";
+import { State } from "core";
 
-console.log("loaded react!");
+const AppContext = createContext({});
+const useAppState = () => useContext(AppContext);
+
+// https://stackoverflow.com/questions/56237448/how-to-make-acquirevscodeapi-available-in-vscode-webview-react
+interface vscode {
+  postMessage(message: any): void;
+}
+declare const vscode: vscode;
+
+const handlers = {
+  callback(category: string) {
+    vscode.postMessage({ command: "add", data: category });
+  }
+};
 const App = () => {
-  return <div>Hello from react</div>;
+  const [localState, setLocalState] = useState({});
+  useEffect(() => {
+    window.addEventListener("message", event => {
+      const state: State = event.data; // The JSON data our extension sent
+      console.log(state);
+      setLocalState(state);
+    });
+  }, []);
+  return (
+    <AppContext.Provider value={[localState, handlers]}></AppContext.Provider>
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));

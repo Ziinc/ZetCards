@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 const fs = require("fs");
 var elasticlunr = require("elasticlunr");
 const path = require("path");
+import * as glob from "glob";
 let index;
 
 const newId = () => new Date().valueOf();
@@ -61,16 +62,47 @@ const ls = async (path: string) => {
   });
 };
 
-const lsR = async (targetPath: string) => {
+export const lsR = async (
+  targetPath: string,
+  opts = { exclude: [".git"], filter: undefined }
+) => {
+  const excludedPaths = opts.exclude.map(p => path.join(targetPath, p));
   let currFiles = await ls(targetPath);
-  console.log(currFiles);
   for (let f of currFiles) {
     const currFilePath = path.join(targetPath, f);
-    if (fs.lstatSync(currFilePath).isDirectory() == true) {
+
+    if (
+      fs.lstatSync(currFilePath).isDirectory() == true &&
+      !excludedPaths.includes(currFilePath)
+    ) {
       const newPath = path.join(targetPath, f);
       const moreFiles = await lsR(newPath);
       currFiles.concat(moreFiles);
     }
   }
   return currFiles;
+};
+
+export default {
+  async refreshCards() {
+    const workspacePath = vscode.workspace.rootPath;
+    let cards = [];
+    glob("**/**.md", { cwd: workspacePath }, (err, files) => {
+      // Add files to the test suite
+      // const filePath = path.resolve(workspacePath, f);
+      console.log(files);
+      // cards.push({
+      //   id: "something",
+      //   parentDir: "something",
+      //   filename: "something",
+      //   content: "something"
+      // });
+    });
+
+    // list all files
+    // read file contents
+    // return as cards
+
+    return [];
+  }
 };

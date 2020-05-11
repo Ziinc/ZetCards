@@ -2,7 +2,7 @@
   "name": "core",
   "version": "0.1.0",
   "description": "",
-  "main": "out/lib/index.js",
+  "main": "lib/index.ts",
   "scripts": {
     "compile": "rm -rf out && tsc -p ./",
     "watch": "tsc -watch -p ./",
