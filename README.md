@@ -1,11 +1,10 @@
 # ZetCards
 
-ZetCards is a knowledge organization program built to last a lifetime. It is based on the ideas of [Luhmann's ZettleKasten method](https://medium.com/emvi/luhmanns-zettelkasten-a-productivity-tool-that-works-like-your-brain-abe2d53a2948) and the traditional wiki.
+ZetCards is a flat file knowledge organization program built to last a lifetime. It is based on the ideas of [Luhmann's ZettleKasten method](https://medium.com/emvi/luhmanns-zettelkasten-a-productivity-tool-that-works-like-your-brain-abe2d53a2948) and the traditional wiki.
 
 End Goals:
 
 - [ ] VSCode extension
-- Have a FOSS core
 - Peripheral services priced as per month services for maintenance, upkeep
   - srs applications integrations (anki/mochi)
   - references management (zotero)
@@ -56,7 +55,7 @@ End Goals:
 The main architectural considerations are as follows:
 
 - Core of the application is shared as much as possible
-  - Prototype and test with TS, refactor with rust wasm.
+  - Prototype and test with TS, refactor for speed with rust wasm.
   - State management with sql.js
 - Core is platform agnostic
 - Thin platform-specific wrapper around core functionalities
