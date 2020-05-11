@@ -22,12 +22,14 @@ const App = () => {
   useEffect(() => {
     window.addEventListener("message", event => {
       const state: State = event.data; // The JSON data our extension sent
-      console.log(state);
       setLocalState(state);
     });
   }, []);
   return (
-    <AppContext.Provider value={[localState, handlers]}></AppContext.Provider>
+    <AppContext.Provider value={[localState, handlers]}>
+      {/* pretty print state for debugging/prototying */}
+      {localState && JSON.stringify(localState, null, 2);}
+    </AppContext.Provider>
   );
 };
 
