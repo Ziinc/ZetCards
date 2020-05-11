@@ -1,36 +1,52 @@
 import initSqlJs from "sql.js";
-import Cards, { ICard } from "./features/cards";
+import Cards, { Card } from "./features/cards";
 
 interface Deps {
-  refreshCardsDep: () => ICard[];
+  refreshCardsDep: () => Card[];
 }
 type App = {
   db: any;
   refresh: any;
+  deps: Deps;
   cards: any;
-  refreshCardsDep: Deps["refreshCardsDep"];
+  init: Promise<App>;
 };
-export default async function(deps: Deps): Promise<App> {
-  await initSqlJs()
-    .then((SQL: any): any => new SQL.Database())
-    .then(db => {
-      this.db = db;
-      let sqlstr = "CREATE TABLE hello (a int, b char);";
-      sqlstr += "INSERT INTO hello VALUES (0, 'hello');";
-      sqlstr += "INSERT INTO hello VALUES (1, 'world');";
-      this.db.run(sqlstr);
-    });
 
-  this.refreshCardsDep = deps.refreshCardsDep;
+export default {
+  async init(deps: Deps) {
+    this.deps = deps;
+    return initSqlJs()
+      .then((SQL: any): any => new SQL.Database())
+      .then(db => {
+        // update the schema
+        this.db = db;
+        let sqlstr = `
+        create table if not exists cards (
+          id integer primary key,
+          parentDir text,
+          filename text,
+          content text
+        )
+        `;
 
-  this.refresh = function() {
+        this.db.run(sqlstr);
+        return this;
+      })
+      .then((app: App) => {
+        app.refresh();
+        return this;
+      });
+  },
+  refresh() {
     let cards;
-    if (this.refreshCardsDep) {
-      cards = this.refreshCardsDep();
+
+    if (this.deps.refreshCardsDep) {
+      cards = this.deps.refreshCardsDep();
+      this.cards.insertCards(cards);
     }
     // insert into db
-  };
-  console.log(this.db);
-  this.cards = Cards(this.db);
-  return this;
-}
+  },
+  get cards() {
+    return Cards(this.db);
+  }
+};
