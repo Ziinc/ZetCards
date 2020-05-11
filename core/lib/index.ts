@@ -1,8 +1,9 @@
 import initSqlJs from "sql.js";
-import Cards, { Card } from "./features/cards";
+import Cards, { RawCard } from "./features/cards";
+import Links from "./features/links";
 
 interface Deps {
-  refreshCardsDep: () => Card[];
+  refreshCardsDep: () => RawCard[];
 }
 type App = {
   db: any;
@@ -21,12 +22,20 @@ export default {
         // update the schema
         this.db = db;
         let sqlstr = `
-        create table if not exists cards (
+        create table if not exists cards(
           id integer primary key,
           parentDir text,
           filename text,
-          content text
-        )
+          basename text,
+          content text,
+          rootFilePath text
+        );
+        create table if not exists links(
+          toCardId integer references cards(id),
+          fromCardId integer references cards(id),
+          anchorText text
+        );
+        
         `;
 
         this.db.run(sqlstr);
@@ -43,10 +52,15 @@ export default {
     if (this.deps.refreshCardsDep) {
       cards = this.deps.refreshCardsDep();
       this.cards.insertCards(cards);
+      this.links.buildLinks();
     }
     // insert into db
   },
   get cards() {
     return Cards(this.db);
+  },
+
+  get links() {
+    return Links(this.db);
   }
 };

@@ -1,6 +1,6 @@
 import Core from "../../../lib";
 import * as assert from "assert";
-import { Card } from "../../../lib/features/cards";
+import { RawCard } from "../../../lib/features/cards";
 describe("refresh", function() {
   it("loads notes with the injected dependency", async function() {
     const card = {
@@ -11,11 +11,15 @@ describe("refresh", function() {
     };
 
     const deps = {
-      refreshCardsDep: (): Card[] => [card]
+      refreshCardsDep: (): RawCard[] => [card]
     };
     let core = await Core.init(deps);
 
     assert.equal(core.cards.listCards().length, 1);
-    assert.deepEqual(core.cards.listCards()[0], card);
+    assert.deepEqual(core.cards.listCards()[0], {
+      ...card,
+      rootFilePath: "/notes/my_random_note",
+      basename: "my_random_note"
+    });
   });
 });
