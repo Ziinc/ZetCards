@@ -46,7 +46,7 @@ End Goals:
   - (future) Community building
     - Getting advice from peers to organize/condense a zet card
 
-## Development Cards
+## Development Notes
 
 The main architectural considerations are as follows:
 
@@ -55,6 +55,7 @@ The main architectural considerations are as follows:
   - State management with sql.js
 - Core is platform agnostic
 - Thin platform-specific wrapper around core functionalities
+- minimal dependencies
 
 ### Issue Tracker
 
