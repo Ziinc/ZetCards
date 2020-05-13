@@ -14,10 +14,10 @@ export interface Card {
   content: string;
   rootFilePath: string;
 }
-export default function(db: any) {
+export default function(core: any) {
   return {
     listCards(): Card[] {
-      var res = db.exec("SELECT * FROM cards;");
+      var res = core.db.exec("SELECT * FROM cards;");
       if (res.length == 0) {
         return [];
       }
@@ -37,7 +37,7 @@ export default function(db: any) {
         "insert into cards (id, parentDir, filename, basename, content, rootFilePath) values ";
       let [sql, values] = cards.reduce(
         (acc, card, idx) => {
-          let rootFilePath = path.resolve(
+          let rootFilePath = path.join(
             card.parentDir,
             path.basename(card.filename, ".md")
           );
@@ -56,10 +56,18 @@ export default function(db: any) {
         },
         [base, []]
       );
-      db.run(sql, values);
+      core.db.run(sql, values);
+    },
+    getCard(id: number) {
+      var sql = core.db.prepare(`SELECT c.* , l.*  FROM cards c
+      left join links l on l.fromCardId = c.id
+      WHERE c.id=?
+      `);
+      const res = sql.getAsObject([id]);
+      return res;
     },
     getCardFromPath(cardPath: string): Card {
-      var sql = db.prepare("SELECT * FROM cards WHERE rootFilePath=?");
+      var sql = core.db.prepare("SELECT * FROM cards WHERE rootFilePath=?");
       return sql.getAsObject([cardPath]);
     }
   };

@@ -16,10 +16,5 @@ describe("refresh", function() {
     let core = await Core.init(deps);
 
     assert.equal(core.cards.listCards().length, 1);
-    assert.deepEqual(core.cards.listCards()[0], {
-      ...card,
-      rootFilePath: "/notes/my_random_note",
-      basename: "my_random_note"
-    });
   });
 });

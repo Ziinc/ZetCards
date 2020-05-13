@@ -2,6 +2,7 @@ import initSqlJs from "sql.js";
 import Cards, { RawCard } from "./features/cards";
 import Links from "./features/links";
 import utils from "./utils";
+import SetState from "./setState";
 interface Deps {
   refreshCards: () => RawCard[];
   pushState?: (state: State) => void;
@@ -37,7 +38,21 @@ export default {
           fromCardId integer references cards(id),
           anchorText text
         );
-        
+        create table if not exists state(
+          id INTEGER PRIMARY KEY,
+          viewingId integer references cards(id)
+        );
+
+        --https://stackoverflow.com/questions/33104101/ensure-sqlite-table-only-has-one-row
+        --limit only one row with sqlite
+        CREATE TRIGGER state_no_insert
+        BEFORE INSERT ON state
+        WHEN (SELECT COUNT(*) FROM state) >= 1
+        BEGIN
+            SELECT RAISE(FAIL, 'only one state row permitted');
+        END;
+
+        INSERT INTO state DEFAULT VALUES;
         `;
 
         this.db.run(sqlstr);
@@ -56,14 +71,32 @@ export default {
       this.cards.insertCards(cards);
       this.links.buildLinks();
     }
+    "";
     // insert into db
   },
   get cards() {
-    return Cards(this.db);
+    return Cards(this);
   },
-
   get links() {
-    return Links(this.db);
+    return Links(this);
+  },
+  get setState() {
+    return SetState(this);
+  },
+  get state() {
+    let sql = this.db.prepare(`select * from state;`);
+    const partialState = sql.getAsObject([]);
+    const full = {
+      ...partialState,
+      viewing: !partialState.viewingId
+        ? null
+        : {
+            card: this.cards.getCard(partialState.viewingId),
+            inboundLinks: this.links.listInboundLinks(partialState.viewingId),
+            outboundLinks: this.links.listOutboundLinks(partialState.viewingId)
+          }
+    };
+    return full;
   },
   utils
 };

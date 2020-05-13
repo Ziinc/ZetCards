@@ -17,7 +17,7 @@ type MdLink = {
   altText: string;
   to: string;
 };
-export default function(db: any) {
+export default function(core: any) {
   return {
     buildLinks() {
       let cards = Core.cards.listCards();
@@ -38,7 +38,7 @@ export default function(db: any) {
         [base, []]
       );
       sql = sql + ";";
-      db.run(sql, values);
+      core.db.run(sql, values);
     },
     extractLinks(card: Card) {
       let links = [];
@@ -66,8 +66,14 @@ export default function(db: any) {
 
       return links;
     },
-    listInboundLinks(card: Card) {
-      var res = db.exec("select * from links where toCardId=?", [card.id]);
+    listInboundLinks(cardOrId) {
+      let id;
+      if (Number.isInteger(cardOrId)) {
+        id = cardOrId;
+      } else {
+        id = cardOrId.id;
+      }
+      var res = core.db.exec("select * from links where toCardId=?", [id]);
       if (res.length == 0) {
         return [];
       }
@@ -81,8 +87,14 @@ export default function(db: any) {
       });
       return values;
     },
-    listOutboundLinks(card: Card) {
-      var res = db.exec("select * from links where fromCardId=?", [card.id]);
+    listOutboundLinks(cardOrId) {
+      let id;
+      if (Number.isInteger(cardOrId)) {
+        id = cardOrId;
+      } else {
+        id = cardOrId.id;
+      }
+      var res = core.db.exec("select * from links where fromCardId=?", [id]);
       if (res.length == 0) {
         return [];
       }
@@ -98,47 +110,3 @@ export default function(db: any) {
     }
   };
 }
-
-// const convertMdLinksToCardLinks = (
-//   card: Card,
-//   links: MdLink[],
-//   cards: Card[]
-// ): CardLink[] => {
-//   const cardLinks = links.reduce((acc, link) => {
-//     const resolvedLink = path.resolve(card.parentDir, link.to);
-//     let parsed = path.parse(resolvedLink);
-//     parsed.base = path.basename(resolvedLink, ".md");
-//     const linkedCard = cards.find(n => n.rootFilePath == path.format(parsed));
-//     if (linkedCard) {
-//       acc.push({
-//         toCardId: linkedCard.id,
-//         altText: link.altText,
-//         rootFilePath: resolvedLink
-//       });
-//     }
-//     return acc;
-//   }, []);
-
-//   return cardLinks;
-// };
-
-const extractLinks = (content): MdLink[] => {
-  // Are there links?
-  // grp 0 : full markdown match
-  // grp 1: alt text or reference id
-  // grp 2: unresolved link
-  let links = [];
-  let match;
-  const inlineRegexp = /\[([^\[]+)\]\(([^\)]+\w*)\)/g;
-  const referenceRegexp = /\[([a-zA-z0-9_-]+)\]:\s*(\S+)/g;
-  [inlineRegexp, referenceRegexp].forEach(regexp => {
-    while ((match = regexp.exec(content))) {
-      links.push({
-        altText: match[1],
-        to: match[2]
-      });
-    }
-  });
-
-  return links;
-};
