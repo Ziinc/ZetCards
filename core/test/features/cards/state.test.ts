@@ -30,6 +30,7 @@ describe("state", function() {
       viewing: null
     });
   });
+  it("calls pushState");
   describe("view cards", function() {
     it("updates state when viewing card", () => {
       assert.doesNotThrow(() => core.setState.viewCard(123123));
