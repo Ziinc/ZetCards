@@ -2,6 +2,8 @@
 
 ZetCards is a flat file knowledge organization program built to last a lifetime. It is based on the ideas of [Luhmann's ZettleKasten method](https://medium.com/emvi/luhmanns-zettelkasten-a-productivity-tool-that-works-like-your-brain-abe2d53a2948) and the traditional wiki.
 
+> **NOTE: UNRELEASED AND HIGHLY UNSTABLE**
+
 End Goals:
 
 - [ ] VSCode extension
@@ -9,46 +11,40 @@ End Goals:
   - srs applications integrations (anki/mochi)
   - references management (zotero)
   - academic paper output (latex)
-  - mobile/web support, possible SaaS
+  - mobile/web support
   - website building support
 
 ## Features
 
-## Roadmap
-
-- [ ] Card filepicker search based on content/relevance
-  - https://github.com/gayanhewa/vscode-fuzzysearch
-- Card Management
+- **Card Management**
   - [ ] Create new cards in an inbox folder
   - [ ] Add file ids to filenames automatically.
   - [ ] Adjusting card's filename if the linked card's header 1/title changes
   - [ ] Adjusting anchor text if linked card's filename changes
-  - [ ] Automatically move files based on tags
-    - [ ] hierarchical tags, for subfolders
-  - [ ] Able to expand a hierarchy of card links
-    - Use case e.g.
-      - combining a collection of cards into a draft document for an article.
-- Link management
-  - [ ] wiki-style fast linking for creating links between cards
-  - [ ] Searching for cards based on filename/header/yaml title/subheaders/content, automatically creating links when selected
-  - [ ] Automatically adjusting relative links when files are moved, keeping relative links in sync
-  - [ ] Automatically linting dead relative links in cards
-- Cards Analysis
-  - [ ] Can see a card's inbound links
-    - [x] Store
-    - [ ] Display
-  - Card search/smart linking based on relevance
-  - Card Preview
+  - [ ] Automatically move files based on tags (if tagged, moves from inbox to index)
+    - (future) hierarchical tags, for subfolders
+  - (future) Card filepicker search based on content/relevance
+    - https://github.com/gayanhewa/vscode-fuzzysearch
+  - (future) Able to expand a hierarchy of card links
+    - Use case e.g. combining a collection of cards into a draft document for an article.
+  - (future) asset pasting
+  - (ftuure) dead assets (assets without any inbound links) identification, purging.
+- **Link management**
+  - [ ] Searching for cards based on filename/header/yaml title/subheaders/content when creating links, automatically creating links when selected
+  - (future) wiki-style fast linking for creating links between cards
+  - (future) Automatically linting dead relative links in cards
+  - (future) Automatically adjusting relative links when files are moved, keeping relative links in sync
+- **Cards Analysis**
+  - [ ] Can see a card's inbound and outbound links **(#3)**
+    - (future) network node graph
+  - (future) Smarter searching/linking based on card content relevance
+  - (future) Card Preview
     - Can preview cards in side panel just by focusing on links
       - Use cases:
         - searching for possible links (link management)
       - ![Example UI inspiration](/assets/2020/04/08-02-21-1586283681424.png)
-  - Community building
+  - (future) Community building
     - Getting advice from peers to organize/condense a zet card
-
-* [ ] reading files, using vscode
-
-  - https://stackoverflow.com/questions/38782181/read-and-write-file-using-vs-code-extension
 
 ## Development Cards
 
