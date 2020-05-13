@@ -1,7 +1,7 @@
 import initSqlJs from "sql.js";
 import Cards, { RawCard } from "./features/cards";
 import Links from "./features/links";
-
+import utils from "./utils";
 interface Deps {
   refreshCards: () => RawCard[];
   pushState?: (state: State) => void;
@@ -64,5 +64,6 @@ export default {
 
   get links() {
     return Links(this.db);
-  }
+  },
+  utils
 };

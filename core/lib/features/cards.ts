@@ -1,4 +1,3 @@
-import * as url from "url";
 import * as path from "path";
 
 export interface RawCard {
@@ -33,6 +32,7 @@ export default function(db: any) {
       return values;
     },
     insertCards(cards: RawCard[]) {
+      if (cards.length == 0) return;
       let base =
         "insert into cards (id, parentDir, filename, basename, content, rootFilePath) values ";
       let [sql, values] = cards.reduce(
@@ -60,30 +60,7 @@ export default function(db: any) {
     },
     getCardFromPath(cardPath: string): Card {
       var sql = db.prepare("SELECT * FROM cards WHERE rootFilePath=?");
-
-      // Bind values to the parameters and fetch the results of the query
       return sql.getAsObject([cardPath]);
     }
   };
 }
-
-// const convertMdLinksToCardLinks = (
-//   card: Card,
-//   links: MdLink[],
-//   cards: Card[]
-// ): CardLink[] => {
-//   const cardLinks = links.reduce((acc, link) => {
-//     const resolvedLink = path.resolve(card.parentDir, link.to);
-
-//     if (linkedCard) {
-//       acc.push({
-//         toCardId: linkedCard.id,
-//         altText: link.altText,
-//         rootFilePath: resolvedLink
-//       });
-//     }
-//     return acc;
-//   }, []);
-
-//   return cardLinks;
-// };
