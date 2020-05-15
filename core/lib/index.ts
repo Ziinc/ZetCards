@@ -24,6 +24,7 @@ export default {
       .then(db => {
         // update the schema
         this.db = db;
+        // TODO breakup schemas to individual feature files
         let sqlstr = `
         create table if not exists cards(
           id integer primary key,
