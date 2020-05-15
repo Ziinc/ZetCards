@@ -4,6 +4,14 @@ ZetCards is a flat file knowledge organization program built to last a lifetime.
 
 > **NOTE: UNRELEASED AND HIGHLY UNSTABLE**
 
+## Principles
+1. All data is stored as text files.
+2. Minimal text formatting (markdown format).
+3. No customized linking mechanism.
+4. Store once, update occasionally, never organize.
+5. Links, links, links!
+
+
 End Goals:
 
 - [ ] VSCode extension
