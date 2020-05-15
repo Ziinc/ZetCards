@@ -4,34 +4,50 @@ import { RawCard } from "../../../lib/features/cards";
 
 describe("state", function() {
   let core;
-  before(async function() {
-    const deps = {
-      refreshCards: (): RawCard[] => [
-        {
-          id: 123123,
-          parentDir: "/notes",
-          filename: "my_random_note.md",
-          content: "Some markdown content"
-        },
-        {
-          id: 123122,
-          parentDir: "/notes",
-          filename: "my_other_note.md",
-          content: "Some markdown content"
-        }
-      ]
-    };
-    core = await Core.init(deps);
-  });
-  it("core.state returns current client state", function() {
-    const state = core.state;
-    assert.notStrictEqual(state, {
+  it("core.state returns current client state", async function() {
+    core = await Core.init({ refreshCards: () => [] });
+    assert.notStrictEqual(core.state, {
       viewingId: null,
       viewing: null
     });
   });
-  it("calls pushState");
+  it("calls pushState on init", async function() {
+    var called = false;
+    core = await Core.init({
+      refreshCards: () => [],
+      pushState: () => (called = true)
+    });
+    assert.equal(called, true);
+  });
+  it("calls pushState on handler call", async function() {
+    let callCount = 0;
+    core = await Core.init({
+      refreshCards: () => [],
+      pushState: () => (callCount += 1)
+    });
+    core.setState.resetViewer();
+    assert.equal(callCount, 2);
+  });
   describe("view cards", function() {
+    before(async function() {
+      const deps = {
+        refreshCards: (): RawCard[] => [
+          {
+            id: 123123,
+            parentDir: "/notes",
+            filename: "my_random_note.md",
+            content: "Some markdown content"
+          },
+          {
+            id: 123122,
+            parentDir: "/notes",
+            filename: "my_other_note.md",
+            content: "Some markdown content"
+          }
+        ]
+      };
+      core = await Core.init(deps);
+    });
     it("updates state when viewing card", () => {
       assert.doesNotThrow(() => core.setState.viewCard(123123));
       assert.equal(core.state.viewingId, 123123);

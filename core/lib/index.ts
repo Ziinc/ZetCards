@@ -2,7 +2,7 @@ import initSqlJs from "sql.js";
 import Cards, { RawCard } from "./features/cards";
 import Links from "./features/links";
 import utils from "./utils";
-import SetState from "./setState";
+import setState from "./setState";
 interface Deps {
   refreshCards: () => RawCard[];
   pushState?: (state: State) => void;
@@ -71,8 +71,9 @@ export default {
       this.cards.insertCards(cards);
       this.links.buildLinks();
     }
-    "";
-    // insert into db
+    if (this.deps.pushState) {
+      this.deps.pushState(this.state);
+    }
   },
   get cards() {
     return Cards(this);
@@ -81,7 +82,7 @@ export default {
     return Links(this);
   },
   get setState() {
-    return SetState(this);
+    return setState(this);
   },
   get state() {
     let sql = this.db.prepare(`select * from state;`);
