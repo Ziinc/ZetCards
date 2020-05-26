@@ -1,19 +1,28 @@
 import initSqlJs from "sql.js";
-import Cards, { RawCard } from "./features/cards";
-import Links from "./features/links";
+import Cards, { RawCard, Card } from "./features/cards";
+import Links, { Link } from "./features/links";
 import utils from "./utils";
-import setState from "./setState";
+import setState, { SetState } from "./setState";
 interface Deps {
   refreshCards: () => RawCard[];
   pushState?: (state: State) => void;
 }
-export type State = any;
-type App = {
+export type State = {
+  viewingId: number;
+  viewing: {
+    card: Card;
+    inboundLinks: Link[];
+    outboundLinks: Link[];
+  } | null;
+};
+export type App = {
   db: any;
   refresh: any;
   deps: Deps;
   cards: any;
   init: Promise<App>;
+  setState: SetState;
+  state: State;
 };
 
 export default {

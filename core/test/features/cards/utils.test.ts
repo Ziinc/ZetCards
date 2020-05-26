@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import Core from "../../../lib";
 import { RawCard } from "../../../lib/features/cards";
-
+import { setDeep } from "../../../lib/utils";
 describe("utils", function() {
   let core;
   before(async function() {
@@ -27,5 +27,13 @@ describe("utils", function() {
     const filename = `${id}-my_filename`;
     const parsedId = core.utils.getIdFromString(filename);
     assert.equal(id, parsedId);
+  });
+});
+describe("private utils", function() {
+  it("setDeep behaves as expected", function() {
+    const res = setDeep({}, ["test", "id"], 123);
+    assert.deepEqual(res, {
+      test: { id: 123 }
+    });
   });
 });

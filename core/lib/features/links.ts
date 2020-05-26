@@ -2,9 +2,12 @@ import Core from "../index";
 import * as url from "url";
 import * as path from "path";
 import { Card } from "./cards";
-type Link = {
+import { setDeep } from "../utils";
+export type Link = {
   fromCardId: number;
+  fromCard: Card;
   toCardId: number;
+  toCard: Card;
   anchorText: string;
 };
 
@@ -73,19 +76,12 @@ export default function(core: any) {
       } else {
         id = cardOrId.id;
       }
-      var res = core.db.exec("select * from links where toCardId=?", [id]);
+      var res = core.db.exec(`${baseListQuery} where toCardId=? `, [id]);
       if (res.length == 0) {
         return [];
       }
       let [{ columns, values }] = res;
-      // convert array of arrays to array of objects
-      values = values.map(row => {
-        return columns.reduce((acc, col, idx) => {
-          acc[col] = row[idx];
-          return acc;
-        }, {});
-      });
-      return values;
+      return matrixToObjects(columns, values);
     },
     listOutboundLinks(cardOrId) {
       let id;
@@ -94,19 +90,61 @@ export default function(core: any) {
       } else {
         id = cardOrId.id;
       }
-      var res = core.db.exec("select * from links where fromCardId=?", [id]);
+      var res = core.db.exec(`${baseListQuery} where fromCardId=?`, [id]);
       if (res.length == 0) {
         return [];
       }
       let [{ columns, values }] = res;
-      // convert array of arrays to array of objects
-      values = values.map(row => {
-        return columns.reduce((acc, col, idx) => {
-          acc[col] = row[idx];
-          return acc;
-        }, {});
-      });
-      return values;
+      return matrixToObjects(columns, values);
     }
   };
+}
+
+const baseListQuery = `
+select links.anchorText, links.fromCardId, links.toCardId, 
+
+toCards.id as 'toCard.id', 
+toCards.parentDir as 'toCard.parentDir', 
+toCards.filename as 'toCard.filename', 
+toCards.basename as 'toCard.basename', 
+toCards.content as 'toCard.content', 
+toCards.rootFilePath as 'toCard.rootFilePath',
+
+fromCards.id as 'fromCard.id', 
+fromCards.parentDir as 'fromCard.parentDir', 
+fromCards.filename as 'fromCard.filename', 
+fromCards.basename as 'fromCard.basename', 
+fromCards.content as 'fromCard.content', 
+fromCards.rootFilePath as 'fromCard.rootFilePath' 
+from links 
+left join cards as toCards ON links.toCardId = toCards.id
+left join cards as fromCards ON links.fromCardId = fromCards.id
+`;
+
+function matrixToObjects(columns, values) {
+  values = values.map(row => {
+    return columns.reduce((acc, col, idx) => {
+      acc[col] = row[idx];
+      return acc;
+    }, {});
+  });
+  // convert nested dot keys to nested objects
+  values = values.map(obj => buildNestedObjects(obj));
+  return values;
+}
+
+// split dotkeys and set the value
+function buildNestedObjects(obj) {
+  let result = {};
+  for (let [key, value] of Object.entries(obj)) {
+    if (key.includes(".")) {
+      // deep set the value
+      const path = key.split(".");
+      result = setDeep(result, path, value, true);
+    } else {
+      // do nothing
+      result[key] = value;
+    }
+  }
+  return result;
 }
