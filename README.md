@@ -25,9 +25,9 @@ End Goals:
 ## Features
 
 - **Card Management**
-  - [ ] Create new cards in an inbox folder
-  - [ ] Add file ids to filenames automatically.
-  - [ ] Adjusting card's filename if the linked card's header 1/title changes
+  - [ ] Create new cards in an inbox folder [#4](https://github.com/Ziinc/ZetCards/issues/4)
+  - [ ] Add file ids to filenames automatically [#2](https://github.com/Ziinc/ZetCards/issues/2)
+  - [ ] Adjusting card's filename if the linked card's header 1/title changes [#5](https://github.com/Ziinc/ZetCards/issues/5)
   - [ ] Adjusting anchor text if linked card's filename changes
   - [ ] Automatically move files based on tags (if tagged, moves from inbox to index)
     - (future) hierarchical tags, for subfolders
