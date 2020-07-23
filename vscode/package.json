@@ -29,7 +29,10 @@
     "compile": "(cd ../core; npm run compile;) && webpack",
     "watch": "webpack",
     "pretest": "npm run compile",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "pub-patch": "vsce publish patch",
+    "pub-minor": "vsce publish minor",
+    "pub-major": "vsce publish major"
   },
   "dependencies": {
     "core": "file:../core",
