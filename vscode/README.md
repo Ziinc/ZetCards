@@ -1,65 +1,80 @@
-# zet README
+# ZetCards
 
-This is the README for your extension "zet". After writing up a brief description, we recommend including the following sections.
+ZetCards is a flat file knowledge organization program built to last a lifetime. It is based on the ideas of [Luhmann's ZettleKasten method](https://medium.com/emvi/luhmanns-zettelkasten-a-productivity-tool-that-works-like-your-brain-abe2d53a2948) and the traditional wiki.
+
+> **NOTE: UNRELEASED AND HIGHLY UNSTABLE**
+
+## Principles
+
+1. All data is stored as text files.
+2. Minimal text formatting (markdown format).
+3. No customized linking mechanism.
+4. Store once, update occasionally, never organize.
+5. Links, links, links!
+
+End Goals:
+
+- [ ] VSCode extension
+- SaaS offerings for peripheral services, priced as per month services for maintenance, upkeep
+  - srs applications integrations (anki/mochi)
+  - references management (zotero)
+  - academic paper output (latex)
+  - mobile/web support
+  - website building support
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Card Management**
+  - [ ] Create new cards in an inbox folder [#4](https://github.com/Ziinc/ZetCards/issues/4)
+  - [ ] Add file ids to filenames automatically [#2](https://github.com/Ziinc/ZetCards/issues/2)
+  - [ ] Adjusting card's filename if the linked card's header 1/title changes [#5](https://github.com/Ziinc/ZetCards/issues/5)
+  - [ ] Adjusting anchor text if linked card's filename changes
+  - [ ] Automatically move files based on tags (if tagged, moves from inbox to index)
+    - (future) hierarchical tags, for subfolders
+  - (future) Card filepicker search based on content/relevance
+    - https://github.com/gayanhewa/vscode-fuzzysearch
+  - (future) Able to expand a hierarchy of card links
+    - Use case e.g. combining a collection of cards into a draft document for an article.
+  - (future) asset pasting
+  - (ftuure) dead assets (assets without any inbound links) identification, purging.
+- **Link management**
+  - [ ] Searching for cards based on filename/header/yaml title/subheaders/content when creating links, automatically creating links when selected
+  - (future) wiki-style fast linking for creating links between cards
+  - (future) Automatically linting dead relative links in cards
+  - (future) Automatically adjusting relative links when files are moved, keeping relative links in sync
+- **Cards Analysis**
+  - [ ] Can see a card's inbound and outbound links **(#3)**
+    - (future) network node graph
+  - (future) Smarter searching/linking based on card content relevance
+  - (future) Card Preview
+    - Can preview cards in side panel just by focusing on links
+      - Use cases:
+        - searching for possible links (link management)
+  - (future) Community building
+    - Getting advice from peers to organize/condense a zet card
 
-For example if there is an image subfolder under your extension project workspace:
+## Development Notes
 
-\!\[feature X\]\(images/feature-x.png\)
+The main architectural considerations are as follows:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- Core of the application is shared as much as possible
+  - Prototype and test with TS, refactor for speed with rust wasm.
+  - State management with sql.js
+- Core is platform agnostic
+- Thin platform-specific wrapper around core functionalities
+- minimal dependencies
 
-## Requirements
+### Issue Tracker
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+All issues are tracked with [git-bug](https://github.com/MichaelMure/git-bug), synced with Github.
 
-## Extension Settings
+## License
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+ZetCards software is licensed with GNU GPL v3.
 
-For example:
+This means that:
 
-This extension contributes the following settings:
+- You can build, verify, test, and share ZetCards freely.
+- You cannot create and distribute a non-free proprietary improvement on the program and compete against ZetCards.
 
-- `myExtension.enable`: enable/disable this extension
-- `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-- Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-- Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+The ZetCards-related creative works like branding, websites, documentation are copyrighted, with all rights reserved.

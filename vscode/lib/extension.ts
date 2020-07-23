@@ -36,8 +36,8 @@ export async function activate(context: vscode.ExtensionContext) {
             enableScripts: true,
             localResourceRoots: [
               vscode.Uri.file(path.join(extensionPath, "dist")),
-              vscode.Uri.file(path.join(extensionPath, "static"))
-            ]
+              vscode.Uri.file(path.join(extensionPath, "static")),
+            ],
           }
         );
         currentPanel.webview.html = getWebviewContent(
@@ -59,14 +59,13 @@ export async function activate(context: vscode.ExtensionContext) {
           context.subscriptions
         );
       }
-      pushState({ test: "testing" });
       currentPanel.webview.onDidReceiveMessage(
-        message => {
+        (message) => {
           const command = message.command;
           const callbacks = {
             add() {
               console.log("testing message passing");
-            }
+            },
           };
           const callback = callbacks[command] || null;
 

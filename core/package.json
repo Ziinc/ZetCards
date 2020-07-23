@@ -4,20 +4,20 @@
   "description": "",
   "main": "lib/index.ts",
   "scripts": {
-    "compile": "rm -rf out && tsc -p ./",
+    "compile-test": "rm -rf out && tsc -p tsconfig-dev.json ",
+    "compile": "rm -rf out && tsc -p tsconfig-prod.json",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile",
+    "pretest": "npm run compile-test",
     "test": "mocha out/test --recursive"
   },
   "author": "Lee Tze Yiing <ty@tzeyiing.com> (https://www.tzeyiing.com)",
   "license": "GPL-3.0",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "sql.js": "^1.2.2",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.11.1",
     "mocha": "^7.1.1",
     "typescript": "^3.8.3"
-  },
-  "dependencies": {
-    "sql.js": "^1.2.2"
   }
 }
