@@ -12,16 +12,6 @@ ZetCards is a flat file knowledge organization program built to last a lifetime.
 4. Store once, update occasionally, never organize.
 5. Links, links, links!
 
-End Goals:
-
-- [ ] VSCode extension
-- SaaS offerings for peripheral services, priced as per month services for maintenance, upkeep
-  - srs applications integrations (anki/mochi)
-  - references management (zotero)
-  - academic paper output (latex)
-  - mobile/web support
-  - website building support
-
 ## Features
 
 - **Card Management**
@@ -53,20 +43,25 @@ End Goals:
   - (future) Community building
     - Getting advice from peers to organize/condense a zet card
 
-## Development Notes
+## Developer
 
-The main architectural considerations are as follows:
+```bash
+# install dependencies
+$ (cd core; npm i)
+$ (cd vscode; npm i)
 
-- Core of the application is shared as much as possible
-  - Prototype and test with TS, refactor for speed with rust wasm.
-  - State management with sql.js
-- Core is platform agnostic
+# run tests
+$ (cd core; npm test)
+$ (cd vscode; npm test)
+```
+
+State management is performed using in-memory sqlite (with sql.js). Get and Set functions are used for allowing the UI to observe state changes.
+
+Development philosophy is as follows:
+
+- Minmal dependencies
 - Thin platform-specific wrapper around core functionalities
-- minimal dependencies
-
-### Issue Tracker
-
-All issues are tracked with [git-bug](https://github.com/MichaelMure/git-bug), synced with Github.
+- Core is platform agnostic
 
 ## License
 
