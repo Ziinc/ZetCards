@@ -6,6 +6,9 @@ node_modules/
 **/node_modules
 **/.DS_Store
 
+# vscode readme
+vscode/README.md
+
 # TypeScript outputs
 core/out/
 vscode/out/
