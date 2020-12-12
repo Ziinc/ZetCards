@@ -1,11 +1,10 @@
-import * as path from "path";
 
 export interface SetState {
   viewCard: (id: number) => void;
   resetViewer: () => void;
 }
 
-export default function(core: any): SetState {
+export default function (core: any): SetState {
   const handlers = {
     viewCard(id: number) {
       // update state table

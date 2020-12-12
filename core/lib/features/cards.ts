@@ -1,5 +1,4 @@
 import * as path from "path";
-
 export interface RawCard {
   id: number;
   parentDir: string;
@@ -14,7 +13,7 @@ export interface Card {
   content: string;
   rootFilePath: string;
 }
-export default function(core: any) {
+export default function (core: any) {
   return {
     listCards(): Card[] {
       var res = core.db.exec("SELECT * FROM cards;");
@@ -57,6 +56,20 @@ export default function(core: any) {
         [base, []]
       );
       core.db.run(sql, values);
+    },
+    // creates a single card
+    /**
+     * Creates a single card. Calls the `createFile` dep.
+     * @param card 
+     */
+    createCard(card: RawCard = { id: core.utils.newId(), parentDir: "/inbox", filename: "untitled_card", content: "" }) {
+
+      core.db.run(`insert into cards (id, parentDir, filename, content)
+      values (?, ?, ?, ?);
+      `, [card.id, card.parentDir, card.filename, card.content]);
+      const newCard = this.getCard(card.id)
+      core.deps.createFile(newCard)
+      return newCard
     },
     getCard(id: number) {
       var sql = core.db.prepare(`SELECT c.* , l.*  FROM cards c

@@ -4,7 +4,8 @@ export default {
   checkFormat: (toCheck: string) => {
     const pattern = RegExp("^(\\d{13})-(.+)", "g");
     return pattern.test(toCheck);
-  }
+  },
+  setDeep
 };
 
 /**

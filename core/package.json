@@ -6,17 +6,19 @@
   "scripts": {
     "compile-test": "rm -rf out && tsc -p tsconfig-dev.json ",
     "compile": "rm -rf out && tsc -p tsconfig-prod.json",
-    "watch": "tsc -watch -p ./",
+    "watch": "tsc -watch -p tsconfig-dev.json",
     "pretest": "npm run compile-test",
-    "test": "mocha out/test --recursive"
+    "test": "mocha out/test --recursive",
+    "test-watch": "mocha out/test --recursive --watch --watch-files ./lib,./test"
   },
   "author": "Lee Tze Yiing <ty@tzeyiing.com> (https://www.tzeyiing.com)",
   "license": "GPL-3.0",
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.11.1"
+  },
   "dependencies": {
     "sql.js": "^1.2.2",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^13.11.1",
     "mocha": "^7.1.1",
     "typescript": "^3.8.3"
   }

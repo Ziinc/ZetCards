@@ -6,6 +6,7 @@ import setState, { SetState } from "./setState";
 interface Deps {
   refreshCards: () => RawCard[];
   pushState?: (state: State) => void;
+  createFile?: (card: Card) => void
 }
 export type State = {
   viewingId: number;
@@ -102,10 +103,10 @@ export default {
       viewing: !partialState.viewingId
         ? null
         : {
-            card: this.cards.getCard(partialState.viewingId),
-            inboundLinks: this.links.listInboundLinks(partialState.viewingId),
-            outboundLinks: this.links.listOutboundLinks(partialState.viewingId)
-          }
+          card: this.cards.getCard(partialState.viewingId),
+          inboundLinks: this.links.listInboundLinks(partialState.viewingId),
+          outboundLinks: this.links.listOutboundLinks(partialState.viewingId)
+        }
     };
     return full;
   },
